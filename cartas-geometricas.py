@@ -1,10 +1,11 @@
 import os
 import shutil
+from pathlib import Path
 
 from cartas_31 import gerar_cartas, validar
 
 
-LOGO_ORIGEM = "/Users/gabrielacarvalho/Library/Mobile Documents/com~apple~CloudDocs/Matemagincana-Arquivos-Soltos/Matemagincana-Jogamat.png"
+LOGO_ORIGEM = "./Matemagincana-Jogamat.png"
 LOGO_ARQUIVO = "Matemagincana-Jogamat.png"
 
 CORES_MATEMAGINCANA = [
@@ -273,10 +274,12 @@ def validar_variacoes_visuais(cartas):
 
 
 def preparar_logo():
-    if os.path.exists(LOGO_ORIGEM):
-        shutil.copyfile(LOGO_ORIGEM, LOGO_ARQUIVO)
-        return True
-    return os.path.exists(LOGO_ARQUIVO)
+    origem = Path(LOGO_ORIGEM).resolve()
+    destino = Path(LOGO_ARQUIVO).resolve()
+
+    # Só copia se forem arquivos diferentes
+    if origem != destino:
+        shutil.copyfile(origem, destino)
 
 
 def logo_html():
